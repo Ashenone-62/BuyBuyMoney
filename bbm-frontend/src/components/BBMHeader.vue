@@ -13,6 +13,14 @@
 
         <transition enter-active-class = "animate__animated animate__flipInX" leave-active-class = "animate__animated animate__flipOutX">
             <div class="shoppingCar" v-if="isShoppingCar">
+                <div class="payBtn">
+                    <div>
+                        全选
+                        <input type="checkbox" name="" id="">
+                    </div>
+                    <button class="pay">支付</button>
+                </div>
+
                 <div class="goods">
                     <div class="shop">
                         <div class="head">
@@ -103,14 +111,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="payBtn">
-                    <div>
-                        全选
-                        <input type="checkbox" name="" id="">
-                    </div>
-                    <button class="pay">支付</button>
-                </div>
             </div>
         </transition>
     </div>
@@ -172,6 +172,9 @@
         width: 100vw;
         height: 10vh;
         justify-content: space-between;
+        position: fixed;
+        background-color: white;
+        z-index: 9999;
     }
 
     .left{
@@ -225,6 +228,8 @@
         border-radius: 2vw;
         box-shadow: 1px 2px 5px #663f3fde;  
         overflow: scroll;
+        z-index: 99999;
+        background-color: #fff;
     }
 
     .shop{
@@ -319,6 +324,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 4vh;
 
         button{
             width: 20vw;
