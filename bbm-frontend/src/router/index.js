@@ -16,7 +16,7 @@ const routes = [
     component: () => import('../views/Me.vue')
   },
   {
-    path: '/category',
+    path: '/category/:type',
     name: 'Category',
     component: () => import('../views/Category.vue')
   }

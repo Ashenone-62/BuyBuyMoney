@@ -1,12 +1,17 @@
 <template>
   <div>
-      这是分类
+      <goods-list></goods-list>
   </div>
 </template>
 
 <script>
-export default {
+import goodsList from '@/components/GoodsList.vue'
 
+export default {
+  name: 'Category',
+  components: {
+    goodsList
+  },
 }
 </script>
 

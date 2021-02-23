@@ -8,7 +8,7 @@
           </router-link>
         </div>
         <div :class="{active:tabActive==1}" >
-          <router-link to="/category">
+          <router-link to="/category/0">
             <van-icon :class="{iconActive:tabActive==1}" name="coupon-o" size="25" color="#a7a7a7" @click="tabRoute(1)" />
           </router-link>
         </div>

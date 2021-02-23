@@ -67,7 +67,6 @@
 
     .randomCommit {
         display: flex;
-        // justify-content: space-between;
         flex-wrap: wrap;
         margin: 2vh 5vw 2vh 5vw;
         width: 90vw;
