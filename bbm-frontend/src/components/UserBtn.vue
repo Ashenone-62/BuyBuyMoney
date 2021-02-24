@@ -1,6 +1,6 @@
 <template>
     <div class="UserBtn">
-        <van-grid :gutter="10" column-num="2" clickable="true">
+        <van-grid :gutter="10" column-num="2" :clickable="true">
             <van-grid-item icon="photo-o" text="订单管理" />
             <van-grid-item icon="photo-o" text="地址管理" />
             <van-grid-item icon="photo-o" text="收藏管理" />

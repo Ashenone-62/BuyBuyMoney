@@ -1,29 +1,41 @@
 <template>
-    <div class="userInfo">
-        <div class="avatar">
-            <img src="@/assets/img/avatar.jpg" alt="">
-        </div>
-        
-        <div class="username">
-            张三李四王麻子
-        </div>
+    <div class="infos">
+        <to-login v-if="$store.state.isLogin == false"></to-login>
+
+        <div class="userInfo" v-if="$store.state.isLogin == true">
+            <div class="avatar" >
+                <img src="@/assets/img/avatar.jpg" alt="">
+            </div>
+            
+            <div class="username">
+                张三李四王麻子
+            </div>
+        </div >
+
     </div>
 </template>
 
 <script>
+import toLogin from "@/components/ToLogin.vue"
 export default {
-
+    components:{
+        toLogin
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+    .infos{
+        background-color: #111636c9;
+        width: 100vw;
+        height: 25vh;
+    }
     .userInfo{
         display: flex;
         align-items: center;
         position: relative;
-        width: 100vw;
-        height: 25vh;
-        background-color: #111636c9;
+        width: 100%;
+        height: 100%;
         margin-bottom: 5vh;
         .avatar{
             width: 25%;

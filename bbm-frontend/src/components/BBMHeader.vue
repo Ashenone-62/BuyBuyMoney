@@ -12,7 +12,7 @@
         </div>
 
         <transition enter-active-class = "animate__animated animate__flipInX" leave-active-class = "animate__animated animate__flipOutX">
-            <div class="shoppingCar" v-if="isShoppingCar">
+            <div class="shoppingCar" v-if="isShoppingCar&&$store.state.isLogin">
                 <div class="payBtn">
                     <div>
                         全选
@@ -126,6 +126,9 @@
                 isDel:false
             }
         },
+        compoents:{
+            
+        },
         methods:{
             searchBtn:function(){
                 this.isSearch = !this.isSearch
@@ -134,7 +137,11 @@
                 console.log(this.searchValue)
             },
             shiftCar:function(){
-                this.isShoppingCar = !this.isShoppingCar;
+                if(this.$store.state.isLogin == true){
+                    this.isShoppingCar = !this.isShoppingCar;
+                }else{
+                    this.$router.push({ name: 'Login'})
+                }
             },
             touchDel:function(e){
                 let timeOutEvent = 0;
