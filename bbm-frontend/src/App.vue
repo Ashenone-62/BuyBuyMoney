@@ -24,16 +24,22 @@
 </template>
 
 <script>
+
   export default {
     data() {
       return {
-        tabActive:0
+        tabActive:0,
       };
     },
     methods:{
       tabRoute:function(num){
         this.tabActive = num;
       }
+    },
+    async beforeMount(){
+      localStorage.isLogin = localStorage.isLogin?localStorage.isLogin:JSON.stringify(false);
+      this.$store.state.isLogin = JSON.parse(localStorage.isLogin)
+      this.$store.state.userToken = localStorage.userToken?JSON.parse(localStorage.userToken):""
     }
   }
 </script>

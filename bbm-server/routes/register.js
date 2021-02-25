@@ -2,13 +2,12 @@ var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
 var sqlQuery = require('../public/javascripts/SQL.js');
-const { reverse } = require('dns');
 
 /* GET home page. */
 router.post('/',async function(req, res, next) {
     let registerObj = req.body;
     registerObj.password = md5Sait(registerObj.password);
-    let avatar = `@/assets/img/avatar.jpg`
+    let avatar = "https://s3.ax1x.com/2021/02/06/yYBsje.png"
     let uid = "";
     for(var i = 1;i <= 8;i++){
         const num = Math.floor(Math.random()*10);
@@ -22,17 +21,12 @@ router.post('/',async function(req, res, next) {
             state: 0
         })
     }else{
-        console.log(registerObj)
-        try {
-            let insertUser_str = "insert into users (uid,username,password,email,phone,avatar) values (?,?,?,?,?,?)"
-            await sqlQuery(insertUser_str,[uid,registerObj.username,registerObj.password,registerObj.email,registerObj.phone,avatar])
-            res.json({
-                state: 1
-            })
-        } catch (error) {
-            console.log(error)
-        }
-
+        let insertUser_str = "insert into users (uid,username,password,email,phone,avatar) values (?,?,?,?,?,?)"
+        await sqlQuery(insertUser_str,[uid,registerObj.username,registerObj.password,registerObj.email,registerObj.phone,avatar]),
+        req.session.username = registerObj.username;
+        res.json({
+            state: 1
+        })
     }
 
 });

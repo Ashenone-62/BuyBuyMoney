@@ -1,14 +1,21 @@
 <template>
     <div class="infos">
+        <div class="logout" @click="logout">
+            <van-icon name="cross" />
+        </div>
+
         <to-login v-if="$store.state.isLogin == false"></to-login>
 
         <div class="userInfo" v-if="$store.state.isLogin == true">
             <div class="avatar" >
-                <img src="@/assets/img/avatar.jpg" alt="">
+                <img :src="userInfo.avatar" alt="">
             </div>
             
             <div class="username">
-                张三李四王麻子
+                {{userInfo.username}}
+                <div class="uid">
+                    uid:{{userInfo.uid}}
+                </div>
             </div>
         </div >
 
@@ -18,8 +25,20 @@
 <script>
 import toLogin from "@/components/ToLogin.vue"
 export default {
+    props:["userInfo"],
     components:{
         toLogin
+    },
+    mounted(){
+        console.log(this.userInfo)
+    },
+    methods:{
+        logout:function(){
+            this.$store.state.isLogin = false;
+            this.$store.state.userToken = "";
+            localStorage.isLogin = JSON.stringify(false);
+            localStorage.removeItem('userToken');
+        }
     }
 }
 </script>
@@ -29,6 +48,19 @@ export default {
         background-color: #111636c9;
         width: 100vw;
         height: 25vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .logout{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        color: #bbf1fa;
+        box-shadow: 1px 1px 2px #bbf1fa;
     }
     .userInfo{
         display: flex;
@@ -57,8 +89,18 @@ export default {
             position: absolute;
             left: 180px;
             height: 10vh;
+            font-size: 30px;
             font-weight: bold;
             color: white;
+        }
+
+        .uid{
+            position: absolute;
+            top: 63px;
+            height: 10vh;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
         }
     }
 </style>

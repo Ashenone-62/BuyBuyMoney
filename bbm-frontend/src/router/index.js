@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/me',
     name: 'Me',
-    component: () => import('../views/Me.vue')
+    component: () => import('../views/Me.vue'),
   },
   {
     path: '/category/:type',

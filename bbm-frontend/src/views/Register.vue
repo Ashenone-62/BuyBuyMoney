@@ -1,5 +1,8 @@
 <template>
     <div class="formData">
+        <div class="back" @click="goback">
+            <van-icon name="arrow-left" />
+        </div>
         <van-form validate-first @failed="onFailed" @submit="submit">
             <van-field
                 v-model="username"
@@ -36,6 +39,7 @@
 <script>
 import axios from 'axios'
 import {Register} from '@/assets/api/index.js'
+import { Toast } from 'vant';
 export default {
     data() {
     return {
@@ -67,23 +71,41 @@ export default {
   },
   methods: {
     onFailed:function(errorInfo) {
-      console.log('failed', errorInfo);
+    //   console.log('failed', errorInfo);
     },
     submit:async function(successRes){
-        console.log(Register)
         let register_res = await axios.post(Register,successRes);
-
-        if(register_res.state == 1){
-            console.log("注册成功")
+        console.log(register_res)
+        if(register_res.data.state == 1){
+            this.$store.state.isLogin = true;
+            this.$store.state.userToken = successRes.username;
+            localStorage.isLogin = JSON.stringify(this.$store.state.isLogin);
+            localStorage.userToken = JSON.stringify(this.$store.state.userToken);
+            Toast.success('注册成功');
+            this.$router.go(-1)
         }else{
-            console.log("已有该用户")
+            Toast.fail('注册失败，已有该用户');
         }
+    },
+    goback:function(){
+        this.$router.go(-1)
     }
   },
 }
 </script>
 
 <style>
+    .back{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        box-shadow: 2px 3px 3px #8b8b8b;
+        margin-bottom: 4vh;
+    }
     .formData{
         padding:10px;
     }
