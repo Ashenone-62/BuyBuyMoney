@@ -12,6 +12,9 @@ export default {
   components: {
     goodsList
   },
+  mounted(){
+
+  }
 }
 </script>
 

@@ -10,6 +10,8 @@ var indexRouter = require('./routes/index');
 var registerRouter = require('./routes/register');
 var getUserInfoRouter = require('./routes/getUserInfo');
 var loginRouter = require('./routes/login');
+var getSwiperRouter = require('./routes/getSwiper');
+var GetGoodsType = require('./routes/getGoodsType');
 
 var app = express();
 
@@ -44,6 +46,8 @@ app.use('/', indexRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/getUserInfo', getUserInfoRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/getSwiper', getSwiperRouter);
+app.use('/api/goodsType', GetGoodsType);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

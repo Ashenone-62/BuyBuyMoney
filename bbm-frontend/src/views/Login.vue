@@ -51,7 +51,6 @@ export default {
     },
     submit:async function(successRes){
         let login_res = await axios.post(Login,successRes);
-        console.log(login_res.data.state)
         if(login_res.data.state==1){
             this.$store.state.isLogin = true;
             this.$store.state.userToken = successRes.username;

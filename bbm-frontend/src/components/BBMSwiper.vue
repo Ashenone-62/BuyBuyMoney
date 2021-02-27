@@ -1,21 +1,9 @@
 <template>
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-        <van-swipe-item>
-            <img src="@/assets/img/good.jpg" alt="">
+        <van-swipe-item v-for="(item,index) in swiper" :key="index">
+            <img :src="item.swiper_img" alt="">
             <div class="goodInfos">
-                <h4>62的无敌键盘</h4>
-            </div>
-        </van-swipe-item>
-        <van-swipe-item>
-            <img src="@/assets/img/good.jpg" alt="">
-            <div class="goodInfos">
-                <h4>张三的无敌键盘</h4>
-            </div>
-        </van-swipe-item>
-        <van-swipe-item>
-            <img src="@/assets/img/good.jpg" alt="">
-            <div class="goodInfos">
-                <h4>JOJO的无敌键盘</h4>
+                <h4>{{item.swiper_name}}</h4>
             </div>
         </van-swipe-item>
     </van-swipe>
@@ -23,7 +11,7 @@
 
 <script>
     export default {
-
+        props:["swiper"]
     }
 </script>
 
