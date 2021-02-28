@@ -3,6 +3,7 @@ const sqlQuery = require('../public/javascripts/SQL');
 var router = express.Router();
 
 /* GET home page. */
+// 获取已登录用户信息
 router.post('/',async function(req, res, next) {
     let username = req.body.username;
     let getUserInfo_str = "select * from users where username = ?"

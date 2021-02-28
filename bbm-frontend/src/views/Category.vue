@@ -1,5 +1,7 @@
 <template>
+<!-- 分类页面 -->
   <div>
+      <!-- 大类别嵌套小类别的分类组件 -->
       <goods-list></goods-list>
   </div>
 </template>

@@ -1,4 +1,5 @@
 <template>
+<!-- 轮播图组件 -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
         <van-swipe-item v-for="(item,index) in swiper" :key="index">
             <img :src="item.swiper_img" alt="">
@@ -11,6 +12,8 @@
 
 <script>
     export default {
+        // props
+        // swiper -由父组件Home请求的轮播图片
         props:["swiper"]
     }
 </script>

@@ -1,4 +1,9 @@
 <template>
+<!-- 
+    顶部组件
+        -   搜索框
+        -   购物车
+ -->
     <div class="bbmHeader">
         <div class="left" :class="{active:isSearch}">
             <van-icon name="search" size="25" @click="searchBtn" :class="{iconActive:isSearch}" />
@@ -117,6 +122,10 @@
 </template>
 
 <script>
+// searchValue: 获取搜索内容
+// isSearch: 是否打开搜索框
+// isShoppingCar: 是否打开购物车
+// isDel: 是否长按删除
     export default {
         data(){
             return {
@@ -130,12 +139,16 @@
             
         },
         methods:{
+            // 打开关闭搜索框
             searchBtn:function(){
                 this.isSearch = !this.isSearch
             },
+            // 获取搜索框内容
             search:function(){
                 console.log(this.searchValue)
             },
+            //打开关闭购物车
+            //会判断是否登录，没有登录会直接跳到登录页
             shiftCar:function(){
                 if(this.$store.state.isLogin == true){
                     this.isShoppingCar = !this.isShoppingCar;
@@ -143,6 +156,7 @@
                     this.$router.push({ name: 'Login'})
                 }
             },
+            //长按购物车商品选择删除
             touchDel:function(e){
                 let timeOutEvent = 0;
                 let _this = this;
@@ -152,11 +166,13 @@
                     this.isDel = true
                     },1000);
             },
+            //取消删除
             cancelDel:function(){
                 this.isDel = false
             }
         },
         updated(){
+            // 自动聚焦到搜索框
             if(this.isSearch == true){
                 this.$refs.search.focus()
             }

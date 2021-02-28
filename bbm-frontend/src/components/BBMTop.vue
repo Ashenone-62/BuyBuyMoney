@@ -1,4 +1,5 @@
 <template>
+<!-- 首页快捷导航按钮群 -->
     <div class="TopGrid">
         <div class="topSale specialBtn">
             <van-icon name="fire" />

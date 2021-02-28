@@ -4,6 +4,7 @@ var crypto = require('crypto');
 var sqlQuery = require('../public/javascripts/SQL.js');
 
 /* GET home page. */
+// 注册
 router.post('/',async function(req, res, next) {
     let registerObj = req.body;
     registerObj.password = md5Sait(registerObj.password);
@@ -30,7 +31,7 @@ router.post('/',async function(req, res, next) {
     }
 
 });
-
+// 加密
 function md5Sait(str){
     let salt = "盗号死个妈"
     let md5Obj = crypto.createHash('md5')

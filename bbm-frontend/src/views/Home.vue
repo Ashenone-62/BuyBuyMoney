@@ -1,8 +1,13 @@
 <template>
+<!-- 首页 -->
   <div>
+    <!-- 头部组件，搜索框与购物车 -->
     <bbm-header></bbm-header>
+    <!-- 轮播图组件 -->
     <bbm-swiper :swiper="swiper_arr"></bbm-swiper>
+    <!-- 快捷导航组件 -->
     <bbm-top></bbm-top>
+    <!-- 随机商品评测组件 -->
     <bbm-commit></bbm-commit>
   </div>
 </template>
@@ -26,6 +31,7 @@ export default {
     }
   },
   async mounted(){
+    // 请求轮播图图片
     let getSwiper_res = await axios.get(GetSwiper);
     this.swiper_arr = getSwiper_res.data
   }

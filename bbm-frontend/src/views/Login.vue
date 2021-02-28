@@ -1,4 +1,5 @@
 <template>
+<!-- 登录页面 -->
     <div class="formData">
         <div class="back" @click="goback">
             <van-icon name="arrow-left" />
@@ -49,6 +50,10 @@ export default {
     onFailed:function(errorInfo) {
     //   console.log('failed', errorInfo);
     },
+    // 成功提交表单
+    // 信息发给服务器校验
+    // 通过后修改当前登录状态和凭证，然后返回上一个页面也就是Me
+    // 不通过，显示登录失败提示信息
     submit:async function(successRes){
         let login_res = await axios.post(Login,successRes);
         if(login_res.data.state==1){
@@ -61,6 +66,7 @@ export default {
             Toast.fail('登录失败，请输入正确的用户名或密码');
         }
     },
+    // 返回
     goback:function(){
         this.$router.go(-1)
     }

@@ -6,6 +6,7 @@ var logger = require('morgan');
 var history = require('connect-history-api-fallback');
 var session = require('express-session')
 
+//引入接口文件
 var indexRouter = require('./routes/index');
 var registerRouter = require('./routes/register');
 var getUserInfoRouter = require('./routes/getUserInfo');
@@ -44,6 +45,7 @@ app.use(session({
 
 app.use('/', indexRouter);
 
+//使用路由中间件
 app.use('/api/register', registerRouter);
 app.use('/api/getUserInfo', getUserInfoRouter);
 app.use('/api/login', loginRouter);

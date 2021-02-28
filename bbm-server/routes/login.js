@@ -4,6 +4,7 @@ var crypto = require('crypto');
 var sqlQuery = require('../public/javascripts/SQL.js');
 
 /* GET home page. */
+// 登录
 router.post('/',async function(req, res, next) {
     let userLogin = req.body;
     userLogin.password = md5Sait(userLogin.password);
@@ -19,7 +20,7 @@ router.post('/',async function(req, res, next) {
         })
     }
 });
-
+// 加密
 function md5Sait(str){
     let salt = "盗号死个妈"
     let md5Obj = crypto.createHash('md5')

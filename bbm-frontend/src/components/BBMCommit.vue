@@ -1,4 +1,5 @@
 <template>
+<!-- 首页评测组件 -->
     <div class="goodInfos">
         <h1>发现评测</h1>
         <div class="randomCommit">

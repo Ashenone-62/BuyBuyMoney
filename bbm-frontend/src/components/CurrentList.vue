@@ -1,4 +1,5 @@
 <template>
+<!-- 当前正在浏览类别的商品列表组件 -->
     <div class="currentList">
         <div class="goodItem" v-for="(item,index) in goodsList" :key="index">
             <div class="cover">
@@ -16,6 +17,8 @@
 <script>
 
 export default {
+    // props
+    // goodsList -由父组件List上请求传入的当前正在浏览类别的商品列表
     props:['goodsList'],
     data(){
         return{

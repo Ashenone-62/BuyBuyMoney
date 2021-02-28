@@ -1,4 +1,7 @@
 <template>
+<!-- 用户信息组件
+    - 判断有无登录，无登录显示登录注册入口
+ -->
     <div class="infos">
         <div class="logout" @click="logout">
             <van-icon name="cross" />
@@ -25,6 +28,7 @@
 <script>
 import toLogin from "@/components/ToLogin.vue"
 export default {
+    // 有父组件Me，判断是否登录，已登录去请求相应的用户信息传过来
     props:["userInfo"],
     components:{
         toLogin
@@ -33,6 +37,7 @@ export default {
         console.log(this.userInfo)
     },
     methods:{
+        //注销当前登录状态
         logout:function(){
             this.$store.state.isLogin = false;
             this.$store.state.userToken = "";

@@ -1,4 +1,5 @@
 <template>
+<!-- 导航组件 -->
   <div id="app">
     <div class="nav animate__animated animate__fadeInUp">
       <div class="tabber">
@@ -37,6 +38,7 @@
       }
     },
     async beforeMount(){
+      // 在整个页面挂载钱就先判断登录的状态并给予初始值
       localStorage.isLogin = localStorage.isLogin?localStorage.isLogin:JSON.stringify(false);
       this.$store.state.isLogin = JSON.parse(localStorage.isLogin)
       this.$store.state.userToken = localStorage.userToken?JSON.parse(localStorage.userToken):""

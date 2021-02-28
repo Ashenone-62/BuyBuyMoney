@@ -1,4 +1,9 @@
 <template>
+<!-- 详情商品列表的的过滤器
+    - 按好评升序降序
+    - 按销量升序降序
+    - 按价格升序降序
+ -->
     <div class="filterRow">
         <van-popover v-model="showPopover1" trigger="click" :actions="actions1" @select="clickFilter">
             <template #reference>
@@ -84,20 +89,23 @@
                 }
 
             },
-            compareSort: function (filed,rev) {
-                if (rev == undefined) {
-                    rev = 1;
+            // 第一个参数要作为重排标准的属性
+            // 第二个参数是升序还是降序
+            // 默认降序，升序传false
+            compareSort: function (filed,isSort) {
+                if (isSort == undefined) {
+                    isSort = 1;
                 } else {
-                    rev = (rev) ? 1 : -1;
+                    isSort = (isSort) ? 1 : -1;
                 }
                 return function (a, b) {
                     a = a[filed];
                     b = b[filed];
                     if (a < b) {
-                        return rev * -1;
+                        return isSort * -1;
                     }
                     if (a > b) {
-                        return rev * 1;
+                        return isSort * 1;
                     }
                     return 0;
                 }

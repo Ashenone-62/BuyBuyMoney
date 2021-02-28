@@ -1,4 +1,10 @@
 <template>
+<!-- 分类组件，呈现形式如：
+    -男装
+     -男衣
+     -男裤
+     -男鞋
+ -->
     <div>
         <van-tabs v-model="activeKey" class="listBtn">
             <van-tab title="男装" to="/category/0">
@@ -116,16 +122,20 @@
     } from '@/assets/api/index.js'
 
     export default {
+        //  activeKey: 当前选中的大类别，如男装
+        //  goodsType: 根据大类别请求到具体小类别，如男衣，男裤
         data() {
             return {
                 activeKey: 0,
                 goodsType: []
             }
         },
+        //在挂载时请求小类别
         async mounted() {
             let getGoodsType_res = await axios.get(GetGoodsType + "/" + this.activeKey);
             this.goodsType = getGoodsType_res.data
         },
+        //监听activeKey变化，有变化时就请求对应的内容
         watch: {
             async activeKey() {
                 let getGoodsType_res = await axios.get(GetGoodsType + "/" + this.activeKey);
@@ -133,9 +143,9 @@
             }
         },
         methods:{
+            //当小类别被点击时，跳转到对应内容的具体商品列表
             goGoodsList:function(type){
                 this.$router.push("/goodsList/"+type)
-
             }
         }
     }

@@ -1,4 +1,5 @@
 <template>
+<!-- 注册组件 -->
     <div class="formData">
         <div class="back" @click="goback">
             <van-icon name="arrow-left" />
@@ -73,6 +74,9 @@ export default {
     onFailed:function(errorInfo) {
     //   console.log('failed', errorInfo);
     },
+    // 提交成功后，发送服务器
+    // 成功新增用户后修改当前登录信息，然后返回上一个页面，也就是Me
+    // 失败就提示已有该用户
     submit:async function(successRes){
         let register_res = await axios.post(Register,successRes);
         console.log(register_res)
@@ -87,6 +91,7 @@ export default {
             Toast.fail('注册失败，已有该用户');
         }
     },
+    //返回
     goback:function(){
         this.$router.go(-1)
     }

@@ -1,4 +1,5 @@
 <template>
+<!-- 登录注册入口组件 -->
     <div class="login">
       <button class="lBtn" @click="toLogin">登录</button>
       <button class="rBtn" @click="toRegister">注册</button>
@@ -8,9 +9,11 @@
 <script>
 export default {
     methods:{
+        //去登录页面
         toLogin:function(){
             this.$router.push({name:"Login"})
         },
+        //去注册页面
         toRegister:function(){
             this.$router.push({name:"Register"})
         },

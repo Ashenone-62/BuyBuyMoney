@@ -1,9 +1,13 @@
 <template>
+<!-- 小类别商品列表页 -->
     <div>
+        <!-- 返回按钮，因为太简单所以没有单独作为一个组件。但应该单独作为组件，因为多处用到了，维护一处变成了维护多处 -->
         <div class="back" @click="goback">
             <van-icon name="arrow-left" />
         </div>
+        <!-- 排序过滤器组件 -->
         <list-filter :goodsList="goodsList"></list-filter>
+        <!-- 商品列表组件 -->
         <current-list :goodsList="goodsList"></current-list>
     </div>
 </template>
@@ -25,11 +29,13 @@ import {GetGoods} from '@/assets/api/index.js'
             listFilter,currentList
         },
         async mounted() {
+            // 根据当前小类别请求具体商品列表
             this.category = this.$route.params.category
             let goods_res = await axios.get(GetGoods+this.category)
             this.goodsList = goods_res.data
         },
         methods: {
+            // 返回
             goback: function () {
                 this.$router.go(-1)
             }
