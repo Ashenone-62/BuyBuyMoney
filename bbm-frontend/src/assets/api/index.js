@@ -5,5 +5,6 @@ module.exports = {
     GetUserInfo: apiRootUrl + 'getUserInfo',
     Login: apiRootUrl + 'login',
     GetSwiper: apiRootUrl + 'getSwiper',
-    GetGoodsType: apiRootUrl + 'goodsType'
+    GetGoodsType: apiRootUrl + 'goodsType',
+    GetGoods: apiRootUrl + 'goods/',
 }

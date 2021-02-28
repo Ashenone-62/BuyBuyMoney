@@ -12,6 +12,7 @@ var getUserInfoRouter = require('./routes/getUserInfo');
 var loginRouter = require('./routes/login');
 var getSwiperRouter = require('./routes/getSwiper');
 var GetGoodsType = require('./routes/getGoodsType');
+var GetGoods = require('./routes/getGoods');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/api/getUserInfo', getUserInfoRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/getSwiper', getSwiperRouter);
 app.use('/api/goodsType', GetGoodsType);
+app.use('/api/goods', GetGoods);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

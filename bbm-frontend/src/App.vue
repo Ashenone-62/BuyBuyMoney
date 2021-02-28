@@ -63,6 +63,7 @@
     bottom: 0;
     background-color: #111636;
     border-radius: 15% 15% 0 0;
+    z-index: 9999;
 
     .tabber {
       display: flex;
@@ -72,7 +73,6 @@
 
       div{
         padding:8px 10px;
-        z-index: 9999;
       }
 
       .active{

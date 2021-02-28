@@ -135,6 +135,7 @@
         methods:{
             goGoodsList:function(type){
                 this.$router.push("/goodsList/"+type)
+
             }
         }
     }
