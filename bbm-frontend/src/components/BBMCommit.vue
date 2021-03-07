@@ -2,49 +2,17 @@
 <!-- 首页评测组件 -->
     <div class="goodInfos">
         <h1>发现评测</h1>
-        <div class="randomCommit">
+        <div class="randomCommit" v-for="(item,index) in commit" :key="index"> 
             <div class="good">
-                <img src="@/assets/img/good.jpg" alt="">
+                <img :src="item.gimg" alt="">
             </div>
             <div class="infos">
                 <div class="content">
-                    这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛
+                    {{item.commit}}
                 </div>
                 <div class="userInfo">
                     <div class="avatar">
-                        <img src="@/assets/img/avatar.jpg" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="randomCommit">
-            <div class="good">
-                <img src="@/assets/img/good.jpg" alt="">
-            </div>
-            <div class="infos">
-                <div class="content">
-                    这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛
-                </div>
-                <div class="userInfo">
-                    <div class="avatar">
-                        <img src="@/assets/img/avatar.jpg" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="randomCommit">
-            <div class="good">
-                <img src="@/assets/img/good.jpg" alt="">
-            </div>
-            <div class="infos">
-                <div class="content">
-                    这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛这个键盘666无敌墙啊的，把把吃鸡牛的一批强无敌，牛牛牛
-                </div>
-                <div class="userInfo">
-                    <div class="avatar">
-                        <img src="@/assets/img/avatar.jpg" alt="">
+                        <img :src="item.avatar" alt="">
                     </div>
                 </div>
             </div>
@@ -53,8 +21,19 @@
 </template>
 
 <script>
-    export default {
+import axios from 'axios'
+import {GetCommits} from '@/assets/api/index.js'
 
+    export default {
+        data(){
+            return{
+                commit:[]
+            }
+        },
+        async mounted(){
+            let commit_res = await axios.get(GetCommits)
+            this.commit = commit_res.data
+        }
     }
 </script>
 

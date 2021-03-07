@@ -8,4 +8,5 @@ module.exports = {
     GetSwiper: apiRootUrl + 'getSwiper', //获取轮播图接口
     GetGoodsType: apiRootUrl + 'goodsType', //获取商品小类别接口
     GetGoods: apiRootUrl + 'goods/',    //获取小类别的商品接口
+    GetCommits: apiRootUrl + 'commits/',    //获取小类别的商品接口
 }
