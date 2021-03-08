@@ -16,12 +16,13 @@
 import listFilter from '@/components/ListFilter.vue'
 import currentList from '@/components/CurrentList.vue'
 import axios from 'axios'
-import {GetGoods} from '@/assets/api/index.js'
+import {GetGoods,GetTopGoods} from '@/assets/api/index.js'
 
     export default {
         data() {
             return {
                 category: "",
+                hotType:"",
                 goodsList:[]
             }
         },
@@ -30,9 +31,18 @@ import {GetGoods} from '@/assets/api/index.js'
         },
         async mounted() {
             // 根据当前小类别请求具体商品列表
-            this.category = this.$route.params.category
-            let goods_res = await axios.get(GetGoods+this.category)
-            this.goodsList = goods_res.data
+            if (this.$route.params.category) {
+                this.category = this.$route.params.category
+                let goods_res = await axios.get(GetGoods+this.category)
+                this.goodsList = goods_res.data
+            }
+            if (this.$route.params.type) {
+                this.hotType = this.$route.params.type
+                let hotType_res = await axios.get(GetTopGoods+this.hotType)
+                this.goodsList = hotType_res.data
+                console.log(this.goodsList)
+            }
+            
         },
         methods: {
             // 返回

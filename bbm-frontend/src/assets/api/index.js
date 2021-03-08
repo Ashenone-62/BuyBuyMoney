@@ -9,4 +9,5 @@ module.exports = {
     GetGoodsType: apiRootUrl + 'goodsType', //获取商品小类别接口
     GetGoods: apiRootUrl + 'goods/',    //获取小类别的商品接口
     GetCommits: apiRootUrl + 'commits/',    //获取小类别的商品接口
+    GetTopGoods: apiRootUrl + 'top/',    //获取小类别的商品接口
 }

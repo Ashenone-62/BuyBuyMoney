@@ -15,6 +15,7 @@ var getSwiperRouter = require('./routes/getSwiper');
 var GetGoodsType = require('./routes/getGoodsType');
 var GetGoods = require('./routes/getGoods');
 var GetCommits = require('./routes/commits');
+var GetGoods_TOP = require('./routes/getGoods_top');
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/api/getSwiper', getSwiperRouter);
 app.use('/api/goodsType', GetGoodsType);
 app.use('/api/goods', GetGoods);
 app.use('/api/commits', GetCommits);
+app.use('/api/top', GetGoods_TOP);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

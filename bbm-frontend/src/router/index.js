@@ -34,6 +34,11 @@ const routes = [
     path: '/goodsList/:category',
     name: 'GoodsList',
     component: () => import('../views/List.vue')
+  },
+  {
+    path: '/hotBtn/:type',
+    name: 'HotBtn',
+    component: () => import('../views/List.vue')
   }
 ]
 
