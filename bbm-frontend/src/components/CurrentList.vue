@@ -1,7 +1,7 @@
 <template>
 <!-- 当前正在浏览类别的商品列表组件 -->
     <div class="currentList">
-        <div class="goodItem" v-for="(item,index) in goodsList" :key="index">
+        <div class="goodItem" v-for="(item,index) in goodsList" :key="index" @click="goDetail(item.gid)">
             <div class="cover">
                 <img :src="item.gimg" alt="">
             </div>
@@ -25,9 +25,12 @@ export default {
 
         }
     },
-    mounted(){
-
-    }
+    methods:{
+        goDetail:function (gid) {
+            this.$router.push("/goodDetail/"+gid)
+            this.$store.state.isDetail = true
+        }
+    },
 }
 </script>
 

@@ -39,6 +39,11 @@ const routes = [
     path: '/hotBtn/:type',
     name: 'HotBtn',
     component: () => import('../views/List.vue')
+  },
+  {
+    path: '/goodDetail/:goodNum',
+    name: 'GoodDetail',
+    component: () => import('../views/GoodDetail.vue')
   }
 ]
 

@@ -40,7 +40,6 @@ import {GetGoods,GetTopGoods} from '@/assets/api/index.js'
                 this.hotType = this.$route.params.type
                 let hotType_res = await axios.get(GetTopGoods+this.hotType)
                 this.goodsList = hotType_res.data
-                console.log(this.goodsList)
             }
             
         },

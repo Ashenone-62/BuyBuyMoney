@@ -1,9 +1,9 @@
 <template>
 <!-- 轮播图组件 -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+    <van-swipe class="my-swipe" :class="{notHome:isHome == false}" :autoplay="3000" indicator-color="white">
         <van-swipe-item v-for="(item,index) in swiper" :key="index">
             <img :src="item.swiper_img" alt="">
-            <div class="goodInfos">
+            <div class="goodInfos" v-if="isHome==true">
                 <h4>{{item.swiper_name}}</h4>
             </div>
         </van-swipe-item>
@@ -14,11 +14,25 @@
     export default {
         // props
         // swiper -由父组件Home请求的轮播图片
-        props:["swiper"]
+        data(){
+            return {
+                isHome:true
+            }
+        },  
+        props:["swiper"],
+        mounted(){
+            if (this.$route.params.goodNum) {
+                this.isHome = false
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
+    .notHome{
+        margin: 5vh 5vw 2vh 5vw !important; 
+    }
+
     .my-swipe {
         margin: 12vh 5vw 2vh 5vw;
         width: 90vw;
