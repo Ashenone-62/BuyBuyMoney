@@ -17,6 +17,7 @@ var GetGoods = require('./routes/getGoods');
 var GetCommits = require('./routes/commits');
 var GetGoods_TOP = require('./routes/getGoods_top');
 var GetGoodDetailSwiper = require('./routes/getGoodDetailSwiper');
+var GetSkuInfos = require('./routes/getSkuInfos');
 
 
 
@@ -60,6 +61,7 @@ app.use('/api/goods', GetGoods);
 app.use('/api/commits', GetCommits);
 app.use('/api/top', GetGoods_TOP);
 app.use('/api/getGoodDetailSwiper', GetGoodDetailSwiper);
+app.use('/api/getSkuInfos', GetSkuInfos);
 
 
 // catch 404 and forward to error handler

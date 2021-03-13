@@ -10,5 +10,6 @@ module.exports = {
     GetGoods: apiRootUrl + 'goods/',    //获取小类别的商品接口
     GetCommits: apiRootUrl + 'commits/',    //获取小类别的商品接口
     GetTopGoods: apiRootUrl + 'top/',    //获取小类别的商品接口
-    GetGoodDetail: apiRootUrl + 'getGoodDetailSwiper/'
+    GetGoodDetail: apiRootUrl + 'getGoodDetailSwiper/',
+    GetSkuInfos: apiRootUrl + 'getSkuInfos/'
 }

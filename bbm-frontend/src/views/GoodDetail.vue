@@ -4,7 +4,7 @@
             <van-icon name="arrow-left" />
         </div>
         <bbm-swiper :swiper="swiper_arr"></bbm-swiper>
-        这是{{gid}}详情页
+
         <van-goods-action>
             <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" />
             <van-goods-action-icon icon="cart-o" text="购物车" />
@@ -12,6 +12,15 @@
             <van-goods-action-button type="warning" text="加入购物车" />
             <van-goods-action-button type="danger" text="立即购买" @click="shiftSku" />
         </van-goods-action>
+
+        <div class="infos">
+            这是{{gid}}信息
+        </div>
+
+        <div class="content">
+            <img src="" alt="">
+            这是{{gid}}详情
+        </div>
 
         <van-sku v-model="showBase" :sku="sku" :goods="goods_info" :goods-id="goods_id" :hide-stock="sku.hide_stock"
             :quota="quota" :quota-used="quota_used" :initial-sku="initialSku" reset-stepper-on-hide
@@ -25,7 +34,8 @@
     import bbmSwiper from '@/components/BBMSwiper.vue'
     import axios from 'axios'
     import {
-        GetGoodDetail
+        GetGoodDetail,
+        GetSkuInfos
     } from '@/assets/api/index.js'
 
     export default {
@@ -36,77 +46,13 @@
             return {
                 gid: "",
                 swiper_arr: [],
+                sku_psku: [],
+                sku_csku: [],
+                sku_infos: [],
                 sku: {
-                    tree: [{
-                            k: '颜色',
-                            k_id: '1',
-                            v: [{
-                                    id: '30349',
-                                    name: '天蓝色',
-                                    imgUrl: 'https://img.yzcdn.cn/upload_files/2017/02/21/FjKTOxjVgnUuPmHJRdunvYky9OHP.jpg!100x100.jpg'
-                                },
-                                {
-                                    id: '1215',
-                                    name: '白色',
-                                    imgUrl: 'https://images.pexels.com/photos/545034/pexels-photo-545034.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                                }
-                            ],
-                            k_s: 's1',
-                            count: 2
-                        },
-                        {
-                            k: '尺寸',
-                            k_id: '2',
-                            v: [{
-                                    id: '1193',
-                                    name: '1'
-                                },
-                                {
-                                    id: '1194',
-                                    name: '2'
-                                }
-                            ],
-                            k_s: 's2',
-                            count: 2
-                        }
-                    ],
-                    list: [{
-                            id: 2259,
-                            price: 120, //价格
-                            discount: 122,
-                            s1: '1215',
-                            s2: '1193',
-                            stock_num: 20, //库存 
-                            goods_id: 946755
-                        },
-                        {
-                            id: 2260,
-                            price: 110,
-                            discount: 112,
-                            s1: '1215',
-                            s2: '1194',
-                            stock_num: 2, //库存 
-                            goods_id: 946755
-                        },
-                        {
-                            id: 2257,
-                            price: 130,
-                            discount: 132,
-                            s1: '30349',
-                            s2: '1193',
-                            stock_num: 40, //库存 
-                            goods_id: 946755
-                        },
-                        {
-                            id: 2258,
-                            price: 100,
-                            discount: 100,
-                            s1: '30349',
-                            s2: '1194',
-                            stock_num: 50, //库存 
-                            goods_id: 946755
-                        }
-                    ],
+                    tree: [],
+                    list: [],
+                    //----------------------------------------待完成-------------------------------------------
                     price: '5.00', //？？
                     stock_num: 227, // 商品总库存？？
                     none_sku: false, // 是否无规格商品 false正常显示那些可供选择的标准，此处是颜色和尺寸
@@ -116,7 +62,7 @@
                 quota: 3, //限购数量 库存旁边显示限购数
                 quota_used: 0, //已经购买过的数量 和下方的数字选择框显示不一样 与限购数量是相对应的 0数字选择框显示3   1 -- 2   2 -- 1  3 -- 0
                 goods_info: {
-                    picture: 'https://img.yzcdn.cn/upload_files/2017/02/21/FjKTOxjVgnUuPmHJRdunvYky9OHP.jpg!100x100.jpg' //图片这个我有点混乱
+                    picture: '' //图片这个我有点混乱
                 },
                 showBase: false, //sku的框的显示
                 closeOnClickOverlay: true, //点击空白处关闭购物框
@@ -125,12 +71,12 @@
                     s2: '1193',
                     selectedNum: 1 //下面的数字选择框的数字即买了多少件
                 },
-                customSkuValidator: () => '请选择xxx!' //？？
+                customSkuValidator: () => '请选择具体规格!' //？？
             }
         },
         async mounted() {
             this.gid = this.$route.params.goodNum;
-            let getGoodDetailSwiper_res = await axios.post(GetGoodDetail + this.gid, this.gid)
+            let getGoodDetailSwiper_res = await axios.get(GetGoodDetail + this.gid)
             this.swiper_arr = getGoodDetailSwiper_res.data
             if (this.$route.name == "GoodDetail") {
                 this.$store.state.isDetail = true
@@ -148,8 +94,61 @@
             onAddCartClicked: function (params) {
 
             },
-            shiftSku: function () {
+            shiftSku: async function () {
                 this.showBase = !this.showBase
+                if (this.showBase == true) {
+                    let count = 1;
+                    let GetSkuInfos_res = await axios.post(GetSkuInfos, {
+                        gid: this.gid
+                    })
+                    this.sku_csku = GetSkuInfos_res.data.getSkuInfos_csku_res
+                    this.sku_psku = GetSkuInfos_res.data.getSkuInfos_psku_res
+                    this.sku_infos = GetSkuInfos_res.data.getSkuInfos_infos_res
+
+                    for (let item_p of this.sku_psku) {
+                        let pskuObj = {
+                            k: item_p.psku,
+                            v: [],
+                            k_s: "s" + count,
+                        }
+
+                        count++
+
+                        for (let item_c of this.sku_csku) {
+                            let cskuObj = {
+                                id: item_c.cskuid,
+                                name: item_c.csku,
+                                imgUrl: item_c.imgurl
+                            }
+                            if (item_p.psku == item_c.psku) {
+                                pskuObj.v.push(cskuObj)
+                            }
+                        }
+                        this.sku.tree.push(pskuObj)
+                        this.goods_info.picture = this.sku_csku[0].imgurl
+                        console.log(pskuObj)
+                    }
+
+                    for (let item_infos of this.sku_infos) {
+                        let count = 1;
+                        let combineArr = JSON.parse(item_infos.combine)
+                        // console.log(item_infos)
+                        let infosObj = {
+                            id: item_infos.combineid,
+                            price: item_infos.price,
+                            stock_num: item_infos.sotcknum, //库存 
+                            goods_id: this.gid,
+                        }
+
+                        for(let item_infos_aim of combineArr){
+                            let infosIndex = 's'+ count;
+                            count++
+                            infosObj[infosIndex] = item_infos_aim
+                        }
+
+                        this.sku.list.push(infosObj)
+                    }
+                }
             }
 
         },
@@ -167,5 +166,27 @@
         border-radius: 50px;
         box-shadow: 2px 3px 3px #8b8b8b;
         margin-bottom: 4vh;
+    }
+
+    .infos {
+        margin: 0vh 3vw 2vh 3vw;
+        width: 94vw;
+        height: 150px;
+        background-color: rgba(128, 128, 128, 0.418);
+        border-radius: 4vw;
+        box-shadow: 2px 3px 2px #663f3fb6;
+    }
+
+    .content {
+        margin: 0vh 3vw 10vh 3vw;
+        width: 94vw;
+        height: 700px;
+        background-color: rgba(128, 128, 128, 0.418);
+        border-radius: 4vw;
+        box-shadow: 2px 3px 2px #663f3fb6;
+
+        img {
+            border-radius: 4vw;
+        }
     }
 </style>
