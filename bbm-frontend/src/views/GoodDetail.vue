@@ -14,12 +14,25 @@
         </van-goods-action>
 
         <div class="infos">
-            这是{{gid}}信息
+            <div class="price">
+                ￥{{min_price}}起
+            </div>
+            <div class="title">{{title}}</div>
+            <div class="area">{{area}}</div>
+            <div class="offPaper">
+                <!-- 优惠券单元格 -->
+                <van-coupon-cell :coupons="coupons" :chosen-coupon="chosenCoupon" @click="showList = true" />
+                <!-- 优惠券列表 -->
+                <van-popup v-model="showList" round position="bottom" style="height: 90%; padding-top: 4px;">
+                    <van-coupon-list :coupons="coupons" :chosen-coupon="chosenCoupon"
+                        :disabled-coupons="disabledCoupons" @change="onChange" @exchange="onExchange" />
+                </van-popup>
+            </div>
         </div>
 
         <div class="content">
             <img src="" alt="">
-            这是{{gid}}详情
+            这是{{gid}}详情为94vw宽，700px的一张长图
         </div>
 
         <van-sku v-model="showBase" :sku="sku" :goods="goods_info" :goods-id="goods_id" :hide-stock="sku.hide_stock"
@@ -38,13 +51,34 @@
         GetSkuInfos
     } from '@/assets/api/index.js'
 
+    const coupon = {
+        available: 1,
+        condition: '无使用门槛\n最多优惠12元',
+        reason: '',
+        value: 150,
+        name: '优惠券名称',
+        startAt: 1489104000,
+        endAt: 1514592000,
+        valueDesc: '1.5',
+        unitDesc: '元',
+    };
+
     export default {
         components: {
             bbmSwiper
         },
         data() {
             return {
+                chosenCoupon: -1,
+                coupons: [coupon],
+                showList:false,
+                disabledCoupons: [coupon],
+
                 gid: "",
+                title: "",
+                area: "",
+                
+                min_price: "",
                 swiper_arr: [],
                 sku_psku: [],
                 sku_csku: [],
@@ -52,41 +86,54 @@
                 sku: {
                     tree: [],
                     list: [],
-                    //----------------------------------------待完成-------------------------------------------
-                    price: '5.00', //？？
-                    stock_num: 227, // 商品总库存？？
-                    none_sku: false, // 是否无规格商品 false正常显示那些可供选择的标准，此处是颜色和尺寸
-                    hide_stock: false, // 是否隐藏剩余库存 false正常显示剩余多少件的那个库存
+                    price: '',
+                    stock_num: 0,
+                    none_sku: false,
+                    hide_stock: false,
                 },
-                goods_id: '946755',
-                quota: 3, //限购数量 库存旁边显示限购数
-                quota_used: 0, //已经购买过的数量 和下方的数字选择框显示不一样 与限购数量是相对应的 0数字选择框显示3   1 -- 2   2 -- 1  3 -- 0
+                goods_id: '',
+                quota: 10,
+                quota_used: 0,
                 goods_info: {
-                    picture: '' //图片这个我有点混乱
+                    picture: ''
                 },
-                showBase: false, //sku的框的显示
-                closeOnClickOverlay: true, //点击空白处关闭购物框
-                initialSku: {
-                    s1: '30349',
-                    s2: '1193',
-                    selectedNum: 1 //下面的数字选择框的数字即买了多少件
-                },
-                customSkuValidator: () => '请选择具体规格!' //？？
+                showBase: false,
+                closeOnClickOverlay: true,
+                initialSku: {},
+                customSkuValidator: () => '请选择具体规格!'
             }
         },
         async mounted() {
             this.gid = this.$route.params.goodNum;
+            this.title = this.$route.params.title;
+            this.area = this.$route.params.area;
+            console.log(this.$route.params)
+            this.goods_id = this.gid
             let getGoodDetailSwiper_res = await axios.get(GetGoodDetail + this.gid)
             this.swiper_arr = getGoodDetailSwiper_res.data
             if (this.$route.name == "GoodDetail") {
                 this.$store.state.isDetail = true
-            }
+            };
+            let GetSkuInfos_res = await axios.post(GetSkuInfos, {
+                gid: this.gid
+            })
+            this.sku_csku = GetSkuInfos_res.data.getSkuInfos_csku_res
+            this.sku_psku = GetSkuInfos_res.data.getSkuInfos_psku_res
+            this.sku_infos = GetSkuInfos_res.data.getSkuInfos_infos_res
+            this.min_price = this.sku_infos[0].price / 100
         },
         methods: {
             // 返回
             goback: function () {
                 this.$router.go(-1)
                 this.$store.state.isDetail = false;
+            },
+            onChange(index) {
+                this.showList = false;
+                this.chosenCoupon = index;
+            },
+            onExchange(code) {
+                this.coupons.push(coupon);
             },
             onBuyClicked: function (params) {
 
@@ -97,13 +144,14 @@
             shiftSku: async function () {
                 this.showBase = !this.showBase
                 if (this.showBase == true) {
+                    let timeCount = 0;
                     let count = 1;
-                    let GetSkuInfos_res = await axios.post(GetSkuInfos, {
-                        gid: this.gid
-                    })
-                    this.sku_csku = GetSkuInfos_res.data.getSkuInfos_csku_res
-                    this.sku_psku = GetSkuInfos_res.data.getSkuInfos_psku_res
-                    this.sku_infos = GetSkuInfos_res.data.getSkuInfos_infos_res
+
+
+                    let initDefaultChoose = {
+                        selectedNum: 1,
+                    };
+                    this.sku.price = this.sku_infos[0].price / 100
 
                     for (let item_p of this.sku_psku) {
                         let pskuObj = {
@@ -126,28 +174,32 @@
                         }
                         this.sku.tree.push(pskuObj)
                         this.goods_info.picture = this.sku_csku[0].imgurl
-                        console.log(pskuObj)
                     }
 
                     for (let item_infos of this.sku_infos) {
-                        let count = 1;
+                        this.sku.stock_num += item_infos.sotcknum;
+                        count = 1;
+
                         let combineArr = JSON.parse(item_infos.combine)
-                        // console.log(item_infos)
                         let infosObj = {
                             id: item_infos.combineid,
                             price: item_infos.price,
-                            stock_num: item_infos.sotcknum, //库存 
+                            stock_num: item_infos.sotcknum,
                             goods_id: this.gid,
                         }
 
-                        for(let item_infos_aim of combineArr){
-                            let infosIndex = 's'+ count;
+                        for (let item_infos_aim of combineArr) {
+                            let infosIndex = 's' + count;
                             count++
+                            if (timeCount == 0) {
+                                initDefaultChoose[infosIndex] = "" + item_infos_aim
+                            }
                             infosObj[infosIndex] = item_infos_aim
                         }
-
                         this.sku.list.push(infosObj)
+                        timeCount++
                     }
+                    this.initialSku = initDefaultChoose
                 }
             }
 

@@ -41,7 +41,7 @@ const routes = [
     component: () => import('../views/List.vue')
   },
   {
-    path: '/goodDetail/:goodNum',
+    path: '/goodDetail/:goodNum/:title/:area',
     name: 'GoodDetail',
     component: () => import('../views/GoodDetail.vue')
   }
