@@ -6,8 +6,8 @@
         <bbm-swiper :swiper="swiper_arr"></bbm-swiper>
 
         <van-goods-action>
-            <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" />
-            <van-goods-action-icon icon="cart-o" text="购物车" />
+            <van-goods-action-icon icon="shop-o" text="店铺" color="#ee0a24" />
+            <van-goods-action-icon icon="chat-o" text="客服" />
             <van-goods-action-icon icon="star-o" text="已收藏" color="#ff5000" />
             <van-goods-action-button type="warning" text="加入购物车" />
             <van-goods-action-button type="danger" text="立即购买" @click="shiftSku" />
@@ -15,9 +15,11 @@
 
         <div class="infos">
             <div class="price">
-                ￥{{min_price}}起
+                <h3>￥{{min_price}}起</h3>
             </div>
-            <div class="title">{{title}}</div>
+            <div class="title">
+                <h1>{{title}}</h1>
+            </div>
             <div class="area">{{area}}</div>
             <div class="offPaper">
                 <!-- 优惠券单元格 -->
@@ -38,7 +40,8 @@
         <van-sku v-model="showBase" :sku="sku" :goods="goods_info" :goods-id="goods_id" :hide-stock="sku.hide_stock"
             :quota="quota" :quota-used="quota_used" :initial-sku="initialSku" reset-stepper-on-hide
             reset-selected-sku-on-hide disable-stepper-input :close-on-click-overlay="closeOnClickOverlay"
-            :custom-sku-validator="customSkuValidator" @buy-clicked="onBuyClicked" @add-cart="onAddCartClicked" />
+            :custom-sku-validator="customSkuValidator" @buy-clicked="onBuyClicked"
+            @add-cart="onAddCartClicked" />
 
     </div>
 </template>
@@ -71,13 +74,13 @@
             return {
                 chosenCoupon: -1,
                 coupons: [coupon],
-                showList:false,
+                showList: false,
                 disabledCoupons: [coupon],
 
                 gid: "",
                 title: "",
                 area: "",
-                
+
                 min_price: "",
                 swiper_arr: [],
                 sku_psku: [],
@@ -107,7 +110,6 @@
             this.gid = this.$route.params.goodNum;
             this.title = this.$route.params.title;
             this.area = this.$route.params.area;
-            console.log(this.$route.params)
             this.goods_id = this.gid
             let getGoodDetailSwiper_res = await axios.get(GetGoodDetail + this.gid)
             this.swiper_arr = getGoodDetailSwiper_res.data
@@ -135,14 +137,23 @@
             onExchange(code) {
                 this.coupons.push(coupon);
             },
-            onBuyClicked: function (params) {
-
+            onBuyClicked: function (skuData) {
+                console.log(skuData)
+                this.$router.push({
+                    path: "/pay",
+                    name: "Pay",
+                    params: {
+                        skuData: skuData
+                    }
+                })
             },
-            onAddCartClicked: function (params) {
-
+            onAddCartClicked: function (skuData) {
+                console.log(skuData)
             },
             shiftSku: async function () {
                 this.showBase = !this.showBase
+                this.sku.tree = [];
+                this.sku.list = [];
                 if (this.showBase == true) {
                     let timeCount = 0;
                     let count = 1;
@@ -224,21 +235,49 @@
         margin: 0vh 3vw 2vh 3vw;
         width: 94vw;
         height: 150px;
-        background-color: rgba(128, 128, 128, 0.418);
-        border-radius: 4vw;
+        background-color: rgba(138, 138, 138, 0.178);
         box-shadow: 2px 3px 2px #663f3fb6;
+        position: relative;
+
+        .price {
+            top: 5px;
+            left: 10px;
+            position: absolute;
+        }
+
+        .title {
+            top: 30px;
+            left: 10px;
+            position: absolute;
+            width: 100%;
+            overflow: hidden;
+            color: rgb(83, 83, 83);
+        }
+
+        .area {
+            top: 70px;
+            right: 10px;
+            position: absolute;
+            color: rgb(75, 75, 75);
+        }
+
+        .offPaper {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
     }
 
     .content {
         margin: 0vh 3vw 10vh 3vw;
         width: 94vw;
         height: 700px;
-        background-color: rgba(128, 128, 128, 0.418);
-        border-radius: 4vw;
+        background-color: rgba(138, 138, 138, 0.178);
+        border-radius: 2vw;
         box-shadow: 2px 3px 2px #663f3fb6;
 
         img {
-            border-radius: 4vw;
+            border-radius: 2vw;
         }
     }
 </style>

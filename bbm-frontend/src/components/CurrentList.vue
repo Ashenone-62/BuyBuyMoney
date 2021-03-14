@@ -27,8 +27,14 @@ export default {
     },
     methods:{
         goDetail:function (gid,title,area) {
-            console.log(gid,title,area)
-            this.$router.push("/goodDetail/"+gid+"/"+title+"/"+area)
+            this.$router.push({
+                path:"/goodDetail/"+gid,
+                name:"GoodDetail",
+                params:{
+                    goodNum: gid,
+                    title: title,
+                    area: area
+                }})
             this.$store.state.isDetail = true
         }
     },
