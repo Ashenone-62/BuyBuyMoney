@@ -138,7 +138,6 @@
                 this.coupons.push(coupon);
             },
             onBuyClicked: function (skuData) {
-                console.log(skuData)
                 this.$router.push({
                     path: "/pay",
                     name: "Pay",
