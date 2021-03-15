@@ -1,5 +1,9 @@
 <template>
     <div>
+        <!--
+    商品选取
+    提交定单
+     -->
         <div class="back" @click="goback">
             <van-icon name="arrow-left" />
         </div>
@@ -18,9 +22,12 @@
                     <span>{{location.tel}}</span>
                 </div>
             </div>
-            <van-address-list v-if="showLocation" v-model="chosenAddressId" :list="list" default-tag-text="默认" @add="onAdd" @edit="onEdit" @click-item="LocationChecked" />
+            <van-address-list v-if="showLocation" v-model="chosenAddressId" :list="list" default-tag-text="默认"
+                @add="onAdd" @edit="onEdit" @click-item="LocationChecked" />
         </div>
-        <div class="payInfo"></div>
+        <div class="payInfo">
+
+        </div>
         <van-submit-bar :price="price" button-text="提交订单" @submit="onSubmit">
             <van-checkbox v-model="checked">全选</van-checkbox>
             <template #tip>
@@ -31,6 +38,10 @@
 </template>
 
 <script>
+    import axios from 'axios'
+    import {
+        GetPaySku
+    } from '@/assets/api/index.js'
     import {
         Toast
     } from 'vant';
@@ -42,10 +53,10 @@
                 showLocation: false,
                 showLocationDetail: false,
                 location: {
-                    buyerName:"",
-                    address:"还没选择地址哦",
-                    phone:""
-                    },
+                    buyerName: "",
+                    address: "还没选择地址哦",
+                    phone: ""
+                },
                 chosenAddressId: '1',
                 list: [{
                         id: '1',
@@ -76,6 +87,21 @@
                 this.$store.state.isDetail = false
             } else {
                 this.price = this.$route.params.skuData.selectedNum * this.$route.params.skuData.selectedSkuComb.price
+                let gid = this.$route.params.skuData.goodsId
+                let jsonSku = [];
+                for (let i = 1; i < 100; i++) {
+                    let keySku = 's' + i
+                    if (this.$route.params.skuData.selectedSkuComb.hasOwnProperty(keySku)) {
+                        jsonSku.push(this.$route.params.skuData.selectedSkuComb[keySku])
+                    } else {
+                        break;
+                    }
+                }
+                jsonSku = JSON.stringify(jsonSku)
+                axios.post(GetPaySku,{
+                    jsonSku: jsonSku,
+                    gid: gid
+                })
                 console.log(1, this.$route.params.skuData)
             }
         },
@@ -93,17 +119,17 @@
             onClickEditAddress: function (params) {
                 this.showLocation = true
             },
-            onAdd: function() {
+            onAdd: function () {
                 Toast('新增地址');
             },
-            onEdit: function(item, index) {
+            onEdit: function (item, index) {
                 Toast('编辑地址:' + index);
             },
-            LocationChecked: function (item,index) {
+            LocationChecked: function (item, index) {
                 this.location = item
                 this.showLocation = false
                 this.showLocationDetail = true
-                console.log(item,index)
+                console.log(item, index)
             }
         }
     }
@@ -120,5 +146,30 @@
         border-radius: 50px;
         box-shadow: 2px 3px 3px #8b8b8b;
         margin-bottom: 4vh;
+    }
+
+    .currentLocation {
+        display: flex;
+        padding: 1vw;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin: 0vh 2vw 2vh 2vw;
+        width: 94vw;
+        height: 120px;
+        background-color: rgba(138, 138, 138, 0.178);
+        box-shadow: 2px 3px 2px #663f3fb6;
+    }
+
+    .payInfo {
+        display: flex;
+        padding: 1vw;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin: 0vh 2vw 18vh 2vw;
+        width: 94vw;
+        min-height: 150px;
+        background-color: rgba(138, 138, 138, 0.178);
+        border-radius: 2vw;
+        box-shadow: 2px 3px 2px #663f3fb6;
     }
 </style>
