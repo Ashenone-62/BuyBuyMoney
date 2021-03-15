@@ -26,7 +26,7 @@
                 @add="onAdd" @edit="onEdit" @click-item="LocationChecked" />
         </div>
         <div class="payInfo">
-
+            <buy-car></buy-car>
         </div>
         <van-submit-bar :price="price" button-text="提交订单" @submit="onSubmit">
             <van-checkbox v-model="checked">全选</van-checkbox>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import buyCar from '@/components/BuyCar.vue'
     import axios from 'axios'
     import {
         GetPaySku
@@ -48,6 +49,7 @@
     export default {
         data() {
             return {
+                skuArr:[],
                 checked: false,
                 price: 0,
                 showLocation: false,
@@ -74,6 +76,9 @@
                 ]
             }
         },
+        components:{
+            buyCar
+        },
         mounted() {
             if (this.$route.name == "Pay") {
                 this.$store.state.isDetail = true
@@ -86,23 +91,15 @@
                 })
                 this.$store.state.isDetail = false
             } else {
-                this.price = this.$route.params.skuData.selectedNum * this.$route.params.skuData.selectedSkuComb.price
+                this.price = this.$route.params.skuData.selectedNum * this.$route.params.skuData.selectedSkuComb.price;
+                                this.skuArr = this.$route.params.skuData_skuArr
                 let gid = this.$route.params.skuData.goodsId
-                let jsonSku = [];
-                for (let i = 1; i < 100; i++) {
-                    let keySku = 's' + i
-                    if (this.$route.params.skuData.selectedSkuComb.hasOwnProperty(keySku)) {
-                        jsonSku.push(this.$route.params.skuData.selectedSkuComb[keySku])
-                    } else {
-                        break;
-                    }
-                }
-                jsonSku = JSON.stringify(jsonSku)
+                // let combineID = this.$route.params.skuData.selectedSkuComb.id;
                 axios.post(GetPaySku,{
-                    jsonSku: jsonSku,
-                    gid: gid
+                    // combineID,
+                    gid
                 })
-                console.log(1, this.$route.params.skuData)
+
             }
         },
         methods: {

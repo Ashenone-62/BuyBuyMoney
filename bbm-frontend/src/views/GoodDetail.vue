@@ -40,9 +40,7 @@
         <van-sku v-model="showBase" :sku="sku" :goods="goods_info" :goods-id="goods_id" :hide-stock="sku.hide_stock"
             :quota="quota" :quota-used="quota_used" :initial-sku="initialSku" reset-stepper-on-hide
             reset-selected-sku-on-hide disable-stepper-input :close-on-click-overlay="closeOnClickOverlay"
-            :custom-sku-validator="customSkuValidator" @buy-clicked="onBuyClicked"
-            @add-cart="onAddCartClicked" />
-
+            :custom-sku-validator="customSkuValidator" @buy-clicked="onBuyClicked" @add-cart="onAddCartClicked" />
     </div>
 </template>
 
@@ -138,17 +136,35 @@
                 this.coupons.push(coupon);
             },
             onBuyClicked: function (skuData) {
+                let skuIdArr = [];
+                let skuDataObj = {}
+                for (let i = 1; i < 100; i++) {
+                    let key = "s" + i;
+                    if (skuData.selectedSkuComb[key]) {
+                        if (this.sku.tree[i - 1].k_s == key) {
+                            for (let item of this.sku.tree[i - 1].v) {
+                                if (item.id == skuData.selectedSkuComb[key]) {
+                                    skuDataObj["skuName" + i] = item.name
+                                }
+                            }
+                        }
+                    } else {
+                        skuIdArr.push(skuDataObj)
+                        console.log(skuIdArr)
+                        break;
+                    }
+                }
+
                 this.$router.push({
                     path: "/pay",
                     name: "Pay",
                     params: {
-                        skuData: skuData
+                        skuData: skuData,
+                        skuData_skuArr: skuIdArr
                     }
                 })
             },
-            onAddCartClicked: function (skuData) {
-                console.log(skuData)
-            },
+            onAddCartClicked: function (skuData) {},
             shiftSku: async function () {
                 this.showBase = !this.showBase
                 this.sku.tree = [];
